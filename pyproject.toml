@@ -1,9 +1,9 @@
 [project]
-name = "example_package"
-description = "example package"
+name = "pillow_netpbm"
+description = "Load netpbm images in Pillow"
 version = "0.1.0"
 authors = [
-    { name = "Random Hacker", email = "no@dev.null" }
+    { name = "Gareth Davidson", email = "gaz@bitplane.net" }
 ]
 readme = "README.md"
 requires-python = ">=3.10"
@@ -21,8 +21,6 @@ dev = [
     "build",
     "twine",
     "ruff",
-    "mkdocs",
-    "mkdocs-material",
     "pydoc-markdown"
 ]
 
