@@ -11,10 +11,12 @@ from pillow_netpbm.format import Format
 from pillow_netpbm.registry import _make_accept, _make_pillow_id
 
 HAVE_ATKTOPBM = shutil.which("atktopbm") is not None
+HAVE_ILBMTOPPM = shutil.which("ilbmtoppm") is not None
 HAVE_INFOTOPAM = shutil.which("infotopam") is not None
 
 ATK_DATA = Path(__file__).parent / "data" / "atk-raster"
 AMIGA_INFO_DATA = Path(__file__).parent / "data" / "amiga-info"
+IFF_ILBM_DATA = Path(__file__).parent / "data" / "iff-ilbm"
 
 
 def test_make_accept_with_magic():
@@ -78,6 +80,24 @@ def test_atk_detected_without_extension(tmp_path):
     dst.write_bytes(src.read_bytes())
     im = Image.open(str(dst))
     assert im.format == "NETPBM_ATK_RASTER"
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_ILBMTOPPM, reason="ilbmtoppm not installed")
+def test_open_iff_ilbm():
+    im = Image.open(str(IFF_ILBM_DATA / "seascape.iff"))
+    assert im.format == "NETPBM_AMIGA_IFF_ILBM"
+    assert im.size == (320, 200)
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_ILBMTOPPM, reason="ilbmtoppm not installed")
+def test_iff_ilbm_detected_without_extension(tmp_path):
+    src = IFF_ILBM_DATA / "seascape.iff"
+    dst = tmp_path / "seascape.wrongext"
+    dst.write_bytes(src.read_bytes())
+    im = Image.open(str(dst))
+    assert im.format == "NETPBM_AMIGA_IFF_ILBM"
     im.load()
 
 
