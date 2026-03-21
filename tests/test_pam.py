@@ -239,6 +239,83 @@ def test_save_unsupported_mode():
         im.save(buf, format="PAM")
 
 
+# --- Multi-frame ---
+
+
+def make_rgb_frame(r, g, b, width=2, height=2):
+    pixels = bytes([r, g, b] * (width * height))
+    return make_pam(width, height, 3, 255, "RGB", pixels)
+
+
+def test_multiframe_n_frames():
+    data = make_rgb_frame(255, 0, 0) + make_rgb_frame(0, 255, 0) + make_rgb_frame(0, 0, 255)
+    im = open_pam(data)
+    assert im.n_frames == 3
+    assert im.is_animated is True
+
+
+def test_multiframe_seek_and_read():
+    data = make_rgb_frame(255, 0, 0) + make_rgb_frame(0, 255, 0) + make_rgb_frame(0, 0, 255)
+    im = open_pam(data)
+    colors = []
+    for i in range(im.n_frames):
+        im.seek(i)
+        im.load()
+        colors.append(im.getpixel((0, 0)))
+    assert colors == [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
+
+
+def test_multiframe_seek_backwards():
+    data = make_rgb_frame(255, 0, 0) + make_rgb_frame(0, 0, 255)
+    im = open_pam(data)
+    im.seek(1)
+    im.load()
+    assert im.getpixel((0, 0)) == (0, 0, 255)
+    im.seek(0)
+    im.load()
+    assert im.getpixel((0, 0)) == (255, 0, 0)
+
+
+def test_multiframe_seek_past_end():
+    data = make_rgb_frame(255, 0, 0)
+    im = open_pam(data)
+    with pytest.raises(EOFError):
+        im.seek(1)
+
+
+def test_multiframe_tell():
+    data = make_rgb_frame(255, 0, 0) + make_rgb_frame(0, 255, 0)
+    im = open_pam(data)
+    assert im.tell() == 0
+    im.seek(1)
+    assert im.tell() == 1
+
+
+def test_single_frame_not_animated():
+    data = make_rgb_frame(42, 42, 42)
+    im = open_pam(data)
+    assert im.n_frames == 1
+    assert im.is_animated is False
+
+
+def test_multiframe_different_modes():
+    """Frames can have different sizes and modes."""
+    frame1 = make_pam(2, 2, 4, 255, "RGB_ALPHA", bytes([255, 0, 0, 255] * 4))
+    frame2 = make_pam(3, 1, 1, 255, "GRAYSCALE", bytes([128, 64, 32]))
+    im = open_pam(frame1 + frame2)
+    assert im.n_frames == 2
+
+    im.seek(0)
+    im.load()
+    assert im.mode == "RGBA"
+    assert im.size == (2, 2)
+
+    im.seek(1)
+    im.load()
+    assert im.mode == "L"
+    assert im.size == (3, 1)
+
+
 # --- Registration ---
 
 

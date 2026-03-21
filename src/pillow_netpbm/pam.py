@@ -104,32 +104,103 @@ def _determine_mode(tupltype: str, maxval: int) -> str:
     return mode
 
 
+def _frame_size(header: dict) -> int:
+    """Calculate the byte size of raster data for one frame."""
+    bytes_per_sample = 2 if header["MAXVAL"] > 255 else 1
+    return header["WIDTH"] * header["HEIGHT"] * header["DEPTH"] * bytes_per_sample
+
+
+def _make_tile(header: dict, data_offset: int) -> ImageFile._Tile:
+    """Build a tile descriptor for a single frame."""
+    width = header["WIDTH"]
+    height = header["HEIGHT"]
+    depth = header["DEPTH"]
+    maxval = header["MAXVAL"]
+    tupltype = header["TUPLTYPE"]
+    mode = _determine_mode(tupltype, maxval)
+    bbox = (0, 0, width, height)
+
+    if maxval == 255:
+        return ImageFile._Tile("raw", bbox, data_offset, (mode, 0, 1))
+    if maxval == 1 and tupltype == "BLACKANDWHITE":
+        return ImageFile._Tile("raw", bbox, data_offset, ("1;8", 0, 1))
+    if maxval == 65535 and mode == "I":
+        return ImageFile._Tile("raw", bbox, data_offset, ("I;16B", 0, 1))
+    return ImageFile._Tile("pam", bbox, data_offset, (mode, maxval, depth))
+
+
 class PamImageFile(ImageFile.ImageFile):
     format = "PAM"
     format_description = "PAM image"
 
+    _frame = 0
+    _n_frames = None
+
     def _open(self) -> None:
-        header = _parse_header(self.fp)
-        width = header["WIDTH"]
-        height = header["HEIGHT"]
-        depth = header["DEPTH"]
-        maxval = header["MAXVAL"]
-        tupltype = header["TUPLTYPE"]
+        self._frame_offsets = []
+        self._frame_headers = []
+        self._rewind = self.fp.tell()
+        self._fp = self.fp
+        self._seek(0)
 
-        self._size = width, height
-        mode = _determine_mode(tupltype, maxval)
-        self._mode = mode
+    def _seek(self, frame: int) -> None:
+        if frame == 0:
+            self._fp.seek(self._rewind)
+            self._frame_offsets.clear()
+            self._frame_headers.clear()
 
-        data_offset = self.fp.tell()
+        # Read forward to the requested frame
+        while len(self._frame_offsets) <= frame:
+            # Seek past the last known frame's raster data
+            if self._frame_offsets:
+                last = len(self._frame_offsets) - 1
+                self._fp.seek(self._frame_offsets[last] + _frame_size(self._frame_headers[last]))
+            try:
+                header = _parse_header(self._fp)
+            except SyntaxError:
+                raise EOFError("no more images in PAM file")
+            data_offset = self._fp.tell()
+            self._frame_offsets.append(data_offset)
+            self._frame_headers.append(header)
 
-        if maxval == 255:
-            self.tile = [ImageFile._Tile("raw", (0, 0, width, height), data_offset, (mode, 0, 1))]
-        elif maxval == 1 and tupltype == "BLACKANDWHITE":
-            self.tile = [ImageFile._Tile("raw", (0, 0, width, height), data_offset, ("1;8", 0, 1))]
-        elif maxval == 65535 and mode == "I":
-            self.tile = [ImageFile._Tile("raw", (0, 0, width, height), data_offset, ("I;16B", 0, 1))]
-        else:
-            self.tile = [ImageFile._Tile("pam", (0, 0, width, height), data_offset, (mode, maxval, depth))]
+        header = self._frame_headers[frame]
+        data_offset = self._frame_offsets[frame]
+
+        self._frame = frame
+        new_size = header["WIDTH"], header["HEIGHT"]
+        new_mode = _determine_mode(header["TUPLTYPE"], header["MAXVAL"])
+
+        if new_size != self._size or new_mode != self._mode:
+            self._im = None
+        self._size = new_size
+        self._mode = new_mode
+        self.fp = self._fp
+        self.tile = [_make_tile(header, data_offset)]
+
+    @property
+    def n_frames(self) -> int:
+        if self._n_frames is None:
+            current = self._frame
+            try:
+                while True:
+                    self._seek(len(self._frame_offsets))
+            except EOFError:
+                pass
+            self._n_frames = len(self._frame_offsets)
+            self._seek(current)
+        return self._n_frames
+
+    @property
+    def is_animated(self) -> bool:
+        return self.n_frames > 1
+
+    def seek(self, frame: int) -> None:
+        if not self._seek_check(frame):
+            return
+        self._seek(frame)
+
+    def tell(self) -> int:
+        return self._frame
 
 
 class PamDecoder(ImageFile.PyDecoder):
