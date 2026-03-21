@@ -1,0 +1,27 @@
+# Andrew Toolkit (ATK / AUIS) data stream
+# From Carnegie Mellon University's Andrew User Interface System (c. 1988)
+
+0	string	\\begindata{raster,	Andrew Toolkit raster image data
+!:mime	application/andrew-inset
+!:ext	raster
+
+0	string	\\begindata{text,	Andrew Toolkit text document
+!:mime	application/andrew-inset
+!:ext	ez
+
+0	string	\\begindata{table,	Andrew Toolkit table
+!:mime	application/andrew-inset
+!:ext	ez
+
+0	string	\\begindata{figure,	Andrew Toolkit figure
+!:mime	application/andrew-inset
+!:ext	ez
+
+0	string	\\begindata{zip,	Andrew Toolkit zip (compound document)
+!:mime	application/andrew-inset
+!:ext	ez
+
+# Generic fallback for any other ATK data type
+0	regex/s	\\\\begindata\\{[a-z]	Andrew Toolkit data
+!:mime	application/andrew-inset
+!:ext	ez

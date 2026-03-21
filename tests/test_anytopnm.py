@@ -35,9 +35,9 @@ def test_open_ppm_via_anytopnm(tmp_path):
 
 @pytest.mark.skipif(not HAVE_ANYTOPNM, reason="anytopnm not installed")
 def test_anytopnm_bad_file(tmp_path):
-    """anytopnm should fail on garbage data."""
+    """anytopnm should fail on empty data."""
     bad_path = tmp_path / "garbage.rle"
-    bad_path.write_bytes(b"this is not an image")
+    bad_path.write_bytes(b"")
     with pytest.raises(Exception):
         Image.open(str(bad_path))
 

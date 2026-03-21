@@ -21,7 +21,7 @@ ANYTOPNM = shutil.which("anytopnm")
 # Extensions for formats netpbm handles that Pillow doesn't natively support.
 # Sorted alphabetically. Excludes .info (handled by amigainfo package).
 EXTENSIONS = [
-    ".atk",  # Andrew Toolkit raster
+    ".raster",  # Andrew Toolkit raster
     ".avs",  # AVS X image
     ".bie",  # JBIG (alt extension)
     ".brush",  # Xerox doodle brush
@@ -75,10 +75,7 @@ EXTENSIONS = [
     ".yuv",  # 4:1:1 YUV
 ]
 
-
-def _accept(prefix: bytes) -> bool:
-    # Never match by magic bytes — only match by file extension.
-    return False
+_EXTENSION_SET = frozenset(EXTENSIONS)
 
 
 class AnytopnmImageFile(ImageFile.ImageFile):
@@ -88,6 +85,12 @@ class AnytopnmImageFile(ImageFile.ImageFile):
     _loaded_image = None
 
     def _open(self) -> None:
+        # Only handle files with extensions we've registered for
+        name = getattr(self.fp, "name", None) or self.filename
+        ext = Path(name).suffix.lower() if name else ""
+        if ext not in _EXTENSION_SET:
+            raise SyntaxError("not an anytopnm-registered extension")
+
         if ANYTOPNM is None:
             raise SyntaxError("anytopnm not found on PATH. Install netpbm: https://netpbm.sourceforge.net/")
 
@@ -137,6 +140,6 @@ class AnytopnmImageFile(ImageFile.ImageFile):
             tmp.unlink()
 
 
-Image.register_open(AnytopnmImageFile.format, AnytopnmImageFile, _accept)
+Image.register_open(AnytopnmImageFile.format, AnytopnmImageFile)
 for ext in EXTENSIONS:
     Image.register_extension(AnytopnmImageFile.format, ext)
