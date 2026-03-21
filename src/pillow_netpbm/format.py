@@ -36,11 +36,13 @@ FORMATS = [
         name="Amiga Info Icon",
         converter="infotopam",
         extensions=(".info",),
+        magic=b"\xe3\x10",
     ),
     Format(
         name="Amiga IFF ILBM",
         converter="ilbmtoppm",
         extensions=(".iff", ".ilbm", ".lbm"),
+        match=lambda prefix: prefix[:4] == b"FORM" and prefix[8:12] == b"ILBM",
     ),
     Format(
         name="Atari Degas",
@@ -51,6 +53,7 @@ FORMATS = [
         name="Atari Degas Elite",
         converter="pc1toppm",
         extensions=(".pc1",),
+        magic=b"\x80\x00",
     ),
     Format(
         name="Atari Degas Low-Res",
@@ -76,6 +79,7 @@ FORMATS = [
         name="AutoCAD Slide",
         converter="sldtoppm",
         extensions=(".sld",),
+        magic=b"AutoCAD Slide",
     ),
     Format(
         name="AVS X Image",
@@ -106,17 +110,20 @@ FORMATS = [
         name="Fiasco Wavelet",
         converter="fiascotopnm",
         extensions=(".wfa",),
+        magic=b"FIASCO",
     ),
     Format(
         name="FITS",
         converter="fitstopnm",
         extensions=(".fits", ".fit", ".fts"),
+        magic=b"SIMPLE",
         mime_type="image/fits",
     ),
     Format(
         name="Garmin SRF",
         converter="srftopam",
         extensions=(".srf",),
+        magic=b"GARMIN BITMAP 01",
     ),
     Format(
         name="GEM Raster",
@@ -152,6 +159,7 @@ FORMATS = [
         name="Interleaf",
         converter="leaftoppm",
         extensions=(".leaf",),
+        magic=b"\x89\x4f\x50\x53",
     ),
     Format(
         name="JBIG",
@@ -177,16 +185,19 @@ FORMATS = [
         name="MGR Bitmap",
         converter="mgrtopbm",
         extensions=(".mgr",),
+        match=lambda prefix: prefix[:2] in (b"yz", b"xz", b"zz", b"zy"),
     ),
     Format(
         name="Microdesign",
         converter="mdatopbm",
         extensions=(".mda",),
+        match=lambda prefix: prefix[:4] in (b".MDA", b".MDP"),
     ),
     Format(
         name="MRF",
         converter="mrftopbm",
         extensions=(".mrf",),
+        magic=b"MRF1",
     ),
     Format(
         name="MTV Ray Tracer",
@@ -222,6 +233,7 @@ FORMATS = [
         name="Solitaire",
         converter="sirtopnm",
         extensions=(".sir",),
+        magic=b"\x4f\x3a",
     ),
     Format(
         name="Sony Mavica 411",
@@ -247,6 +259,7 @@ FORMATS = [
         name="TeX PK Font Bitmap",
         converter="pktopbm",
         extensions=(".pk",),
+        magic=b"\xf7\x59",
     ),
     Format(
         name="Usenix FaceSaver",
@@ -257,6 +270,7 @@ FORMATS = [
         name="Utah RLE",
         converter="rletopnm",
         extensions=(".rle",),
+        magic=b"\x52\xcc",
     ),
     Format(
         name="Wavefront RLA",
@@ -277,6 +291,7 @@ FORMATS = [
         name="X Window Dump",
         converter="xwdtopnm",
         extensions=(".xwd",),
+        match=lambda prefix: prefix[4:8] in (b"\x00\x00\x00\x06", b"\x00\x00\x00\x07"),
     ),
     Format(
         name="XV Thumbnail",
@@ -292,6 +307,7 @@ FORMATS = [
         name="YBM Face File",
         converter="ybmtopbm",
         extensions=(".ybm",),
+        magic=b"!!",
     ),
     Format(
         name="YUV 4:1:1",

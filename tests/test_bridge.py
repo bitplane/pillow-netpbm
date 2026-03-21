@@ -11,8 +11,10 @@ from pillow_netpbm.format import Format
 from pillow_netpbm.registry import _make_accept, _make_pillow_id
 
 HAVE_ATKTOPBM = shutil.which("atktopbm") is not None
+HAVE_INFOTOPAM = shutil.which("infotopam") is not None
 
 ATK_DATA = Path(__file__).parent / "data" / "atk-raster"
+AMIGA_INFO_DATA = Path(__file__).parent / "data" / "amiga-info"
 
 
 def test_make_accept_with_magic():
@@ -76,6 +78,25 @@ def test_atk_detected_without_extension(tmp_path):
     dst.write_bytes(src.read_bytes())
     im = Image.open(str(dst))
     assert im.format == "NETPBM_ATK_RASTER"
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_INFOTOPAM, reason="infotopam not installed")
+@pytest.mark.parametrize("name", [p.name for p in sorted(AMIGA_INFO_DATA.glob("*.info"))])
+def test_open_amiga_info(name):
+    im = Image.open(str(AMIGA_INFO_DATA / name))
+    assert im.format == "NETPBM_AMIGA_INFO_ICON"
+    im.load()
+    assert im.size[0] > 0 and im.size[1] > 0
+
+
+@pytest.mark.skipif(not HAVE_INFOTOPAM, reason="infotopam not installed")
+def test_amiga_info_detected_without_extension(tmp_path):
+    src = next(AMIGA_INFO_DATA.glob("*.info"))
+    dst = tmp_path / "icon.wrongext"
+    dst.write_bytes(src.read_bytes())
+    im = Image.open(str(dst))
+    assert im.format == "NETPBM_AMIGA_INFO_ICON"
     im.load()
 
 
