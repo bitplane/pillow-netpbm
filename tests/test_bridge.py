@@ -13,7 +13,9 @@ from pillow_netpbm.registry import _make_accept, _make_pillow_id
 HAVE_ATKTOPBM = shutil.which("atktopbm") is not None
 HAVE_ILBMTOPPM = shutil.which("ilbmtoppm") is not None
 HAVE_INFOTOPAM = shutil.which("infotopam") is not None
+HAVE_AVSTOPAM = shutil.which("avstopam") is not None
 HAVE_NEOTOPPM = shutil.which("neotoppm") is not None
+HAVE_SLDTOPPM = shutil.which("sldtoppm") is not None
 HAVE_SPUTOPPM = shutil.which("sputoppm") is not None
 HAVE_PI1TOPPM = shutil.which("pi1toppm") is not None
 HAVE_PI3TOPBM = shutil.which("pi3topbm") is not None
@@ -119,6 +121,32 @@ def test_open_atari_degas_elite():
     im = Image.open(str(ATARI_DEGAS_DATA / "AMMO.PC1"))
     assert im.format == "NETPBM_ATARI_DEGAS_ELITE"
     assert im.size == (320, 200)
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_AVSTOPAM, reason="avstopam not installed")
+def test_open_avs():
+    im = Image.open(str(Path(__file__).parent / "data" / "avs" / "poo.avs"))
+    assert im.format == "NETPBM_AVS_X_IMAGE"
+    im.load()
+    assert im.size == (117, 91)
+
+
+@pytest.mark.skipif(not HAVE_SLDTOPPM, reason="sldtoppm not installed")
+def test_open_autocad_slide():
+    im = Image.open(str(Path(__file__).parent / "data" / "autocad-slide" / "ab30-02c.sld"))
+    assert im.format == "NETPBM_AUTOCAD_SLIDE"
+    im.load()
+    assert im.size[0] > 0 and im.size[1] > 0
+
+
+@pytest.mark.skipif(not HAVE_SLDTOPPM, reason="sldtoppm not installed")
+def test_autocad_slide_detected_without_extension(tmp_path):
+    src = Path(__file__).parent / "data" / "autocad-slide" / "ab30-02c.sld"
+    dst = tmp_path / "slide.wrongext"
+    dst.write_bytes(src.read_bytes())
+    im = Image.open(str(dst))
+    assert im.format == "NETPBM_AUTOCAD_SLIDE"
     im.load()
 
 
