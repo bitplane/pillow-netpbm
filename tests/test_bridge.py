@@ -10,22 +10,50 @@ import pillow_netpbm  # noqa: F401 — triggers registration
 from pillow_netpbm.format import Format
 from pillow_netpbm.registry import _make_accept, _make_pillow_id
 
-HAVE_ATKTOPBM = shutil.which("atktopbm") is not None
-HAVE_ILBMTOPPM = shutil.which("ilbmtoppm") is not None
-HAVE_INFOTOPAM = shutil.which("infotopam") is not None
-HAVE_AVSTOPAM = shutil.which("avstopam") is not None
-HAVE_NEOTOPPM = shutil.which("neotoppm") is not None
-HAVE_SLDTOPPM = shutil.which("sldtoppm") is not None
-HAVE_SPUTOPPM = shutil.which("sputoppm") is not None
-HAVE_PI1TOPPM = shutil.which("pi1toppm") is not None
-HAVE_PI3TOPBM = shutil.which("pi3topbm") is not None
-HAVE_PC1TOPPM = shutil.which("pc1toppm") is not None
+DATA = Path(__file__).parent / "data"
 
-ATK_DATA = Path(__file__).parent / "data" / "atk-raster"
-AMIGA_INFO_DATA = Path(__file__).parent / "data" / "amiga-info"
-ATARI_DEGAS_DATA = Path(__file__).parent / "data" / "atari-degas"
-ATARI_SPECTRUM_DATA = Path(__file__).parent / "data" / "atari-spectrum"
-IFF_ILBM_DATA = Path(__file__).parent / "data" / "iff-ilbm"
+# Hand-curated test image paths (real-world files, not synthetic)
+ATK_DATA = DATA / "atk-raster"
+AMIGA_INFO_DATA = DATA / "amiga-info"
+ATARI_DEGAS_DATA = DATA / "atari-degas"
+ATARI_SPECTRUM_DATA = DATA / "atari-spectrum"
+IFF_ILBM_DATA = DATA / "iff-ilbm"
+
+# Synthetic test data: (subdir, filename, converter, expected_format_id)
+SYNTHETIC_FORMATS = [
+    ("cmu-wm", "test.cmuwm", "cmuwmtopbm", "NETPBM_CMU_WINDOW_MANAGER_BITMAP"),
+    ("compuserve-rle", "test.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
+    ("facesaver", "test.fs", "fstopgm", "NETPBM_USENIX_FACESAVER"),
+    ("fiasco", "test.wfa", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),
+    ("fits", "test.fits", "fitstopnm", "NETPBM_FITS"),
+    ("garmin-srf", "test.srf", "srftopam", "NETPBM_GARMIN_SRF"),
+    ("gem-raster", "test.gem", "gemtopnm", "NETPBM_GEM_RASTER"),
+    ("group3-fax", "test.g3", "g3topbm", "NETPBM_GROUP_3_FAX"),
+    ("hp-paintjet", "test.pj", "pjtoppm", "NETPBM_HP_PAINTJET"),
+    ("interleaf", "test.leaf", "leaftoppm", "NETPBM_INTERLEAF"),
+    ("jbig", "test.jbig", "jbigtopnm", "NETPBM_JBIG"),
+    ("lisp-machine", "test.lispm", "lispmtopgm", "NETPBM_LISP_MACHINE_BITMAP"),
+    ("macpaint", "test.macp", "macptopbm", "NETPBM_MACPAINT"),
+    ("mgr-bitmap", "test.mgr", "mgrtopbm", "NETPBM_MGR_BITMAP"),
+    ("microdesign", "test.mda", "mdatopbm", "NETPBM_MICRODESIGN"),
+    ("mrf", "test.mrf", "mrftopbm", "NETPBM_MRF"),
+    ("palm-db", "test.pdb", "pdbimgtopam", "NETPBM_PALM_DB_IMAGE"),
+    ("sbig", "test.sbig", "sbigtopgm", "NETPBM_SBIG_CCD_CAMERA"),
+    ("sbig-st4", "test.st4", "st4topgm", "NETPBM_SBIG_ST_4_CCD_CAMERA"),
+    ("solitaire", "test.sir", "sirtopnm", "NETPBM_SOLITAIRE"),
+    ("sun-icon", "test.icon", "sunicontopnm", "NETPBM_SUN_ICON"),
+    ("svg", "test.svg", "svgtopam", "NETPBM_SVG"),
+    ("utah-rle", "test.rle", "rletopnm", "NETPBM_UTAH_RLE"),
+    ("wireless-bitmap", "test.wbmp", "wbmptopbm", "NETPBM_WIRELESS_BITMAP"),
+    ("xv-thumbnail", "test.xvmini", "xvminitoppm", "NETPBM_XV_THUMBNAIL"),
+    ("xwd", "test.xwd", "xwdtopnm", "NETPBM_X_WINDOW_DUMP"),
+    ("ybm", "test.ybm", "ybmtopbm", "NETPBM_YBM_FACE_FILE"),
+]
+
+
+# ---------------------------------------------------------------------------
+# Unit tests for registry helpers
+# ---------------------------------------------------------------------------
 
 
 def test_make_accept_with_magic():
@@ -59,7 +87,7 @@ def test_make_accept_without_magic():
 
 def test_pillow_id():
     assert _make_pillow_id("ATK Raster") == "NETPBM_ATK_RASTER"
-    assert _make_pillow_id("YUV 4:1:1") == "NETPBM_YUV_4_1_1"
+    assert _make_pillow_id("FITS") == "NETPBM_FITS"
 
 
 def test_unavailable_converter_not_registered():
@@ -74,7 +102,32 @@ def test_unavailable_converter_not_registered():
     assert exts.get(".fakefmt") is None
 
 
-@pytest.mark.skipif(not HAVE_ATKTOPBM, reason="atktopbm not installed")
+# ---------------------------------------------------------------------------
+# Synthetic round-trip tests (parametrized)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "subdir, filename, converter, expected_format",
+    SYNTHETIC_FORMATS,
+    ids=[s[0] for s in SYNTHETIC_FORMATS],
+)
+def test_open_synthetic(subdir, filename, converter, expected_format):
+    if shutil.which(converter) is None:
+        pytest.skip(f"{converter} not installed")
+    path = DATA / subdir / filename
+    im = Image.open(str(path))
+    assert im.format == expected_format
+    im.load()
+    assert im.size[0] > 0 and im.size[1] > 0
+
+
+# ---------------------------------------------------------------------------
+# Hand-curated format tests (real-world files)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.skipif(not shutil.which("atktopbm"), reason="atktopbm not installed")
 def test_open_atk_raster():
     im = Image.open(str(ATK_DATA / "cube.raster"))
     assert im.format == "NETPBM_ATK_RASTER"
@@ -82,7 +135,7 @@ def test_open_atk_raster():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_ATKTOPBM, reason="atktopbm not installed")
+@pytest.mark.skipif(not shutil.which("atktopbm"), reason="atktopbm not installed")
 def test_atk_detected_without_extension(tmp_path):
     src = ATK_DATA / "cube.raster"
     dst = tmp_path / "cube.wrongext"
@@ -92,7 +145,7 @@ def test_atk_detected_without_extension(tmp_path):
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_PI1TOPPM, reason="pi1toppm not installed")
+@pytest.mark.skipif(not shutil.which("pi1toppm"), reason="pi1toppm not installed")
 def test_open_atari_degas_pi1():
     im = Image.open(str(ATARI_DEGAS_DATA / "MOUSE.PI1"))
     assert im.format == "NETPBM_ATARI_DEGAS"
@@ -100,7 +153,7 @@ def test_open_atari_degas_pi1():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_PI3TOPBM, reason="pi3topbm not installed")
+@pytest.mark.skipif(not shutil.which("pi3topbm"), reason="pi3topbm not installed")
 def test_open_atari_degas_pi3():
     im = Image.open(str(ATARI_DEGAS_DATA / "HIDDEN.PI3"))
     assert im.format == "NETPBM_ATARI_DEGAS_LOW_RES"
@@ -108,7 +161,7 @@ def test_open_atari_degas_pi3():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_NEOTOPPM, reason="neotoppm not installed")
+@pytest.mark.skipif(not shutil.which("neotoppm"), reason="neotoppm not installed")
 def test_open_atari_neochrome():
     im = Image.open(str(ATARI_DEGAS_DATA / "titlepic.neo"))
     assert im.format == "NETPBM_ATARI_NEOCHROME"
@@ -116,7 +169,7 @@ def test_open_atari_neochrome():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_PC1TOPPM, reason="pc1toppm not installed")
+@pytest.mark.skipif(not shutil.which("pc1toppm"), reason="pc1toppm not installed")
 def test_open_atari_degas_elite():
     im = Image.open(str(ATARI_DEGAS_DATA / "AMMO.PC1"))
     assert im.format == "NETPBM_ATARI_DEGAS_ELITE"
@@ -124,25 +177,25 @@ def test_open_atari_degas_elite():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_AVSTOPAM, reason="avstopam not installed")
+@pytest.mark.skipif(not shutil.which("avstopam"), reason="avstopam not installed")
 def test_open_avs():
-    im = Image.open(str(Path(__file__).parent / "data" / "avs" / "poo.avs"))
+    im = Image.open(str(DATA / "avs" / "poo.avs"))
     assert im.format == "NETPBM_AVS_X_IMAGE"
     im.load()
     assert im.size == (117, 91)
 
 
-@pytest.mark.skipif(not HAVE_SLDTOPPM, reason="sldtoppm not installed")
+@pytest.mark.skipif(not shutil.which("sldtoppm"), reason="sldtoppm not installed")
 def test_open_autocad_slide():
-    im = Image.open(str(Path(__file__).parent / "data" / "autocad-slide" / "ab30-02c.sld"))
+    im = Image.open(str(DATA / "autocad-slide" / "ab30-02c.sld"))
     assert im.format == "NETPBM_AUTOCAD_SLIDE"
     im.load()
     assert im.size[0] > 0 and im.size[1] > 0
 
 
-@pytest.mark.skipif(not HAVE_SLDTOPPM, reason="sldtoppm not installed")
+@pytest.mark.skipif(not shutil.which("sldtoppm"), reason="sldtoppm not installed")
 def test_autocad_slide_detected_without_extension(tmp_path):
-    src = Path(__file__).parent / "data" / "autocad-slide" / "ab30-02c.sld"
+    src = DATA / "autocad-slide" / "ab30-02c.sld"
     dst = tmp_path / "slide.wrongext"
     dst.write_bytes(src.read_bytes())
     im = Image.open(str(dst))
@@ -150,7 +203,7 @@ def test_autocad_slide_detected_without_extension(tmp_path):
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_SPUTOPPM, reason="sputoppm not installed")
+@pytest.mark.skipif(not shutil.which("sputoppm"), reason="sputoppm not installed")
 def test_open_atari_spectrum_uncompressed():
     im = Image.open(str(ATARI_SPECTRUM_DATA / "NEWTEKS.SPU"))
     assert im.format == "NETPBM_ATARI_UNCOMPRESSED_SPECTRUM"
@@ -158,7 +211,7 @@ def test_open_atari_spectrum_uncompressed():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_ILBMTOPPM, reason="ilbmtoppm not installed")
+@pytest.mark.skipif(not shutil.which("ilbmtoppm"), reason="ilbmtoppm not installed")
 def test_open_iff_ilbm():
     im = Image.open(str(IFF_ILBM_DATA / "seascape.iff"))
     assert im.format == "NETPBM_AMIGA_IFF_ILBM"
@@ -166,7 +219,7 @@ def test_open_iff_ilbm():
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_ILBMTOPPM, reason="ilbmtoppm not installed")
+@pytest.mark.skipif(not shutil.which("ilbmtoppm"), reason="ilbmtoppm not installed")
 def test_iff_ilbm_detected_without_extension(tmp_path):
     src = IFF_ILBM_DATA / "seascape.iff"
     dst = tmp_path / "seascape.wrongext"
@@ -176,7 +229,7 @@ def test_iff_ilbm_detected_without_extension(tmp_path):
     im.load()
 
 
-@pytest.mark.skipif(not HAVE_INFOTOPAM, reason="infotopam not installed")
+@pytest.mark.skipif(not shutil.which("infotopam"), reason="infotopam not installed")
 @pytest.mark.parametrize("name", [p.name for p in sorted(AMIGA_INFO_DATA.glob("*.info"))])
 def test_open_amiga_info(name):
     im = Image.open(str(AMIGA_INFO_DATA / name))
@@ -185,7 +238,7 @@ def test_open_amiga_info(name):
     assert im.size[0] > 0 and im.size[1] > 0
 
 
-@pytest.mark.skipif(not HAVE_INFOTOPAM, reason="infotopam not installed")
+@pytest.mark.skipif(not shutil.which("infotopam"), reason="infotopam not installed")
 def test_amiga_info_detected_without_extension(tmp_path):
     src = next(AMIGA_INFO_DATA.glob("*.info"))
     dst = tmp_path / "icon.wrongext"
@@ -193,6 +246,11 @@ def test_amiga_info_detected_without_extension(tmp_path):
     im = Image.open(str(dst))
     assert im.format == "NETPBM_AMIGA_INFO_ICON"
     im.load()
+
+
+# ---------------------------------------------------------------------------
+# Registration and rejection tests
+# ---------------------------------------------------------------------------
 
 
 def test_extension_only_rejects_wrong_extension(tmp_path):
@@ -205,7 +263,7 @@ def test_extension_only_rejects_wrong_extension(tmp_path):
 
 def test_extensions_registered():
     exts = Image.registered_extensions()
-    for ext in [".xwd", ".rle", ".jbig", ".yuy2", ".wfa", ".pdb", ".icon"]:
+    for ext in [".xwd", ".rle", ".jbig", ".wfa", ".pdb", ".icon"]:
         fmt_id = exts.get(ext)
         assert fmt_id is not None and fmt_id.startswith(
             "NETPBM_"

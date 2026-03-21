@@ -97,11 +97,7 @@ FORMATS = [
         converter="cistopbm",
         extensions=(".cis",),
     ),
-    Format(
-        name="Encoder YUV",
-        converter="eyuvtoppm",
-        extensions=(".eyuv",),
-    ),
+    # Encoder YUV (eyuvtoppm) removed: headerless format, dimensions not in file
     Format(
         name="Fiasco Wavelet",
         converter="fiascotopnm",
@@ -305,16 +301,8 @@ FORMATS = [
         extensions=(".ybm",),
         magic=b"!!",
     ),
-    Format(
-        name="YUV 4:1:1",
-        converter="yuvtoppm",
-        extensions=(".yuv",),
-    ),
-    Format(
-        name="YUY2 Video Frame",
-        converter="yuy2topam",
-        extensions=(".yuy2",),
-    ),
+    # YUV 4:1:1 (yuvtoppm) removed: headerless format, dimensions not in file
+    # YUY2 Video Frame (yuy2topam) removed: headerless format, dimensions not in file
     Format(
         name="Zeiss Confocal",
         converter="zeisstopnm",
