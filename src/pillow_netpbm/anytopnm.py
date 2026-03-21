@@ -19,26 +19,60 @@ from PIL import Image, ImageFile
 ANYTOPNM = shutil.which("anytopnm")
 
 # Extensions for formats netpbm handles that Pillow doesn't natively support.
-# Sorted alphabetically. Excludes .info (handled by amigainfo).
+# Sorted alphabetically. Excludes .info (handled by amigainfo package).
 EXTENSIONS = [
+    ".atk",  # Andrew Toolkit raster
     ".avs",  # AVS X image
     ".bie",  # JBIG (alt extension)
+    ".brush",  # Xerox doodle brush
+    ".cis",  # CompuServe RLE
     ".cr2",  # Canon RAW
+    ".eyuv",  # Encoder YUV
+    ".g3",  # Group 3 fax
     ".gem",  # GEM raster
+    ".gould",  # Gould scanner
+    ".hips",  # HIPS
     ".icon",  # Sun icon
+    ".iff",  # Amiga IFF ILBM
+    ".ilbm",  # Amiga IFF ILBM (alt extension)
     ".jbg",  # JBIG (alt extension)
     ".jbig",  # JBIG
+    ".lbm",  # Amiga IFF ILBM (alt extension)
+    ".leaf",  # Interleaf
     ".lsm",  # Zeiss confocal
+    ".macp",  # MacPaint
+    ".mda",  # Microdesign
+    ".mgr",  # MGR window manager bitmap
+    ".mrf",  # MRF
+    ".mtv",  # MTV ray tracer
     ".nef",  # Nikon RAW
+    ".neo",  # Atari Neochrome
+    ".pc1",  # Atari Degas Elite
     ".pdb",  # Palm DB image
+    ".pi1",  # Atari Degas
+    ".pi3",  # Atari Degas low-res
+    ".pj",  # HP PaintJet
+    ".pk",  # TeX PK font bitmap
+    ".psid",  # PostScript image data
+    ".qrt",  # QRT ray tracer
     ".rla",  # Wavefront RLA
     ".rle",  # Utah RLE
+    ".sbig",  # SBIG CCD camera
     ".sir",  # Solitaire
+    ".sld",  # AutoCAD slide
+    ".spc",  # Atari compressed Spectrum
+    ".spot",  # SPOT satellite
+    ".spu",  # Atari uncompressed Spectrum
     ".srf",  # Garmin SRF
-    ".svg",  # SVG (rasterized)
+    ".st4",  # SBIG ST-4 CCD camera
+    ".svg",  # SVG (rasterized via svgtopam)
+    ".wbmp",  # Wireless bitmap (WAP)
     ".wfa",  # Fiasco wavelet
+    ".xim",  # X IMage
     ".xwd",  # X Window Dump
+    ".ybm",  # Bennet Yee face file
     ".yuy2",  # YUY2 video frame
+    ".yuv",  # 4:1:1 YUV
 ]
 
 
