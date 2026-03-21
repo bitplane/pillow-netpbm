@@ -86,11 +86,7 @@ FORMATS = [
         converter="avstopam",
         extensions=(".avs",),
     ),
-    Format(
-        name="Camera RAW",
-        converter="cameratopam",
-        extensions=(".cr2", ".nef"),
-    ),
+    # Camera RAW (cameratopam) removed: segfaults on NEF, fails on CR2
     Format(
         name="CMU Window Manager Bitmap",
         converter="cmuwmtopbm",

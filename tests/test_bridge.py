@@ -205,7 +205,7 @@ def test_extension_only_rejects_wrong_extension(tmp_path):
 
 def test_extensions_registered():
     exts = Image.registered_extensions()
-    for ext in [".xwd", ".rle", ".jbig", ".cr2", ".nef", ".yuy2", ".wfa", ".pdb", ".icon"]:
+    for ext in [".xwd", ".rle", ".jbig", ".yuy2", ".wfa", ".pdb", ".icon"]:
         fmt_id = exts.get(ext)
         assert fmt_id is not None and fmt_id.startswith(
             "NETPBM_"
