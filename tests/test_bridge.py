@@ -13,9 +13,16 @@ from pillow_netpbm.registry import _make_accept, _make_pillow_id
 HAVE_ATKTOPBM = shutil.which("atktopbm") is not None
 HAVE_ILBMTOPPM = shutil.which("ilbmtoppm") is not None
 HAVE_INFOTOPAM = shutil.which("infotopam") is not None
+HAVE_NEOTOPPM = shutil.which("neotoppm") is not None
+HAVE_SPUTOPPM = shutil.which("sputoppm") is not None
+HAVE_PI1TOPPM = shutil.which("pi1toppm") is not None
+HAVE_PI3TOPBM = shutil.which("pi3topbm") is not None
+HAVE_PC1TOPPM = shutil.which("pc1toppm") is not None
 
 ATK_DATA = Path(__file__).parent / "data" / "atk-raster"
 AMIGA_INFO_DATA = Path(__file__).parent / "data" / "amiga-info"
+ATARI_DEGAS_DATA = Path(__file__).parent / "data" / "atari-degas"
+ATARI_SPECTRUM_DATA = Path(__file__).parent / "data" / "atari-spectrum"
 IFF_ILBM_DATA = Path(__file__).parent / "data" / "iff-ilbm"
 
 
@@ -80,6 +87,46 @@ def test_atk_detected_without_extension(tmp_path):
     dst.write_bytes(src.read_bytes())
     im = Image.open(str(dst))
     assert im.format == "NETPBM_ATK_RASTER"
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_PI1TOPPM, reason="pi1toppm not installed")
+def test_open_atari_degas_pi1():
+    im = Image.open(str(ATARI_DEGAS_DATA / "MOUSE.PI1"))
+    assert im.format == "NETPBM_ATARI_DEGAS"
+    assert im.size == (320, 200)
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_PI3TOPBM, reason="pi3topbm not installed")
+def test_open_atari_degas_pi3():
+    im = Image.open(str(ATARI_DEGAS_DATA / "HIDDEN.PI3"))
+    assert im.format == "NETPBM_ATARI_DEGAS_LOW_RES"
+    assert im.size == (640, 400)
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_NEOTOPPM, reason="neotoppm not installed")
+def test_open_atari_neochrome():
+    im = Image.open(str(ATARI_DEGAS_DATA / "titlepic.neo"))
+    assert im.format == "NETPBM_ATARI_NEOCHROME"
+    assert im.size == (320, 200)
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_PC1TOPPM, reason="pc1toppm not installed")
+def test_open_atari_degas_elite():
+    im = Image.open(str(ATARI_DEGAS_DATA / "AMMO.PC1"))
+    assert im.format == "NETPBM_ATARI_DEGAS_ELITE"
+    assert im.size == (320, 200)
+    im.load()
+
+
+@pytest.mark.skipif(not HAVE_SPUTOPPM, reason="sputoppm not installed")
+def test_open_atari_spectrum_uncompressed():
+    im = Image.open(str(ATARI_SPECTRUM_DATA / "NEWTEKS.SPU"))
+    assert im.format == "NETPBM_ATARI_UNCOMPRESSED_SPECTRUM"
+    assert im.size == (320, 200)
     im.load()
 
 
