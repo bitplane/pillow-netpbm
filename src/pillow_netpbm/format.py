@@ -26,14 +26,12 @@ class Format:
 # Tier 1: magic known (matched by content, high confidence)
 # Tier 2: extension only (magic=None, lower confidence)
 FORMATS = [
-    # Tier 1 — magic known
     Format(
         name="ATK Raster",
         converter="atktopbm",
         extensions=(".raster",),
         magic=b"\\begindata{rast",
     ),
-    # Tier 2 — extension only
     Format(
         name="Amiga Info Icon",
         converter="infotopam",
@@ -48,11 +46,6 @@ FORMATS = [
         name="Atari Degas",
         converter="pi1toppm",
         extensions=(".pi1",),
-    ),
-    Format(
-        name="Atari DiddleBug Sketch",
-        converter="ddbugtopbm",
-        extensions=(".ddbug",),
     ),
     Format(
         name="Atari Degas Elite",
@@ -90,11 +83,6 @@ FORMATS = [
         extensions=(".avs",),
     ),
     Format(
-        name="Bio-Rad Confocal",
-        converter="bioradtopgm",
-        extensions=(".biorad",),
-    ),
-    Format(
         name="Camera RAW",
         converter="cameratopam",
         extensions=(".cr2", ".nef"),
@@ -102,7 +90,7 @@ FORMATS = [
     Format(
         name="CMU Window Manager Bitmap",
         converter="cmuwmtopbm",
-        extensions=(".cmuwm",),
+        magic=b"\xf1\x00\x40\xbb",
     ),
     Format(
         name="CompuServe RLE",
@@ -113,11 +101,6 @@ FORMATS = [
         name="Encoder YUV",
         converter="eyuvtoppm",
         extensions=(".eyuv",),
-    ),
-    Format(
-        name="Epson ESC/P2",
-        converter="escp2topbm",
-        extensions=(".escp2",),
     ),
     Format(
         name="Fiasco Wavelet",
@@ -151,11 +134,6 @@ FORMATS = [
         extensions=(".g3",),
     ),
     Format(
-        name="HP ThinkJet",
-        converter="thinkjettopbm",
-        extensions=(".thinkjet",),
-    ),
-    Format(
         name="HIPS",
         converter="hipstopgm",
         extensions=(".hips",),
@@ -186,14 +164,9 @@ FORMATS = [
         extensions=(".pcd",),
     ),
     Format(
-        name="Kodak Photo CD Overview",
-        converter="pcdovtoppm",
-        extensions=(".pcd_ovr",),
-    ),
-    Format(
         name="Lisp Machine Bitmap",
         converter="lispmtopgm",
-        extensions=(".lispm",),
+        magic=b"This is a BitMap",
     ),
     Format(
         name="MacPaint",
@@ -262,13 +235,8 @@ FORMATS = [
     ),
     Format(
         name="Sun Icon",
-        converter="icontopbm",
-        extensions=(".icon",),
-    ),
-    Format(
-        name="Sun Icon (color)",
         converter="sunicontopnm",
-        extensions=(".sunicon",),
+        extensions=(".icon",),
     ),
     Format(
         name="SVG",
@@ -313,7 +281,7 @@ FORMATS = [
     Format(
         name="XV Thumbnail",
         converter="xvminitoppm",
-        extensions=(".xvmini",),
+        magic=b"P7 332",
     ),
     Format(
         name="Xerox Doodle Brush",
