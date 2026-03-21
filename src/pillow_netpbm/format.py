@@ -35,6 +35,11 @@ FORMATS = [
     ),
     # Tier 2 — extension only
     Format(
+        name="Amiga Info Icon",
+        converter="infotopam",
+        extensions=(".info",),
+    ),
+    Format(
         name="Amiga IFF ILBM",
         converter="ilbmtoppm",
         extensions=(".iff", ".ilbm", ".lbm"),
@@ -43,6 +48,11 @@ FORMATS = [
         name="Atari Degas",
         converter="pi1toppm",
         extensions=(".pi1",),
+    ),
+    Format(
+        name="Atari DiddleBug Sketch",
+        converter="ddbugtopbm",
+        extensions=(".ddbug",),
     ),
     Format(
         name="Atari Degas Elite",
@@ -80,9 +90,19 @@ FORMATS = [
         extensions=(".avs",),
     ),
     Format(
+        name="Bio-Rad Confocal",
+        converter="bioradtopgm",
+        extensions=(".biorad",),
+    ),
+    Format(
         name="Camera RAW",
         converter="cameratopam",
         extensions=(".cr2", ".nef"),
+    ),
+    Format(
+        name="CMU Window Manager Bitmap",
+        converter="cmuwmtopbm",
+        extensions=(".cmuwm",),
     ),
     Format(
         name="CompuServe RLE",
@@ -95,9 +115,20 @@ FORMATS = [
         extensions=(".eyuv",),
     ),
     Format(
+        name="Epson ESC/P2",
+        converter="escp2topbm",
+        extensions=(".escp2",),
+    ),
+    Format(
         name="Fiasco Wavelet",
         converter="fiascotopnm",
         extensions=(".wfa",),
+    ),
+    Format(
+        name="FITS",
+        converter="fitstopnm",
+        extensions=(".fits", ".fit", ".fts"),
+        mime_type="image/fits",
     ),
     Format(
         name="Garmin SRF",
@@ -120,6 +151,11 @@ FORMATS = [
         extensions=(".g3",),
     ),
     Format(
+        name="HP ThinkJet",
+        converter="thinkjettopbm",
+        extensions=(".thinkjet",),
+    ),
+    Format(
         name="HIPS",
         converter="hipstopgm",
         extensions=(".hips",),
@@ -130,6 +166,11 @@ FORMATS = [
         extensions=(".pj",),
     ),
     Format(
+        name="Img-whatnot",
+        converter="imgtoppm",
+        extensions=(".img",),
+    ),
+    Format(
         name="Interleaf",
         converter="leaftoppm",
         extensions=(".leaf",),
@@ -138,6 +179,21 @@ FORMATS = [
         name="JBIG",
         converter="jbigtopnm",
         extensions=(".jbig", ".jbg", ".bie"),
+    ),
+    Format(
+        name="Kodak Photo CD",
+        converter="hpcdtoppm",
+        extensions=(".pcd",),
+    ),
+    Format(
+        name="Kodak Photo CD Overview",
+        converter="pcdovtoppm",
+        extensions=(".pcd_ovr",),
+    ),
+    Format(
+        name="Lisp Machine Bitmap",
+        converter="lispmtopgm",
+        extensions=(".lispm",),
     ),
     Format(
         name="MacPaint",
@@ -195,6 +251,11 @@ FORMATS = [
         extensions=(".sir",),
     ),
     Format(
+        name="Sony Mavica 411",
+        converter="411toppm",
+        extensions=(".411",),
+    ),
+    Format(
         name="SPOT Satellite",
         converter="spottopgm",
         extensions=(".spot",),
@@ -205,6 +266,11 @@ FORMATS = [
         extensions=(".icon",),
     ),
     Format(
+        name="Sun Icon (color)",
+        converter="sunicontopnm",
+        extensions=(".sunicon",),
+    ),
+    Format(
         name="SVG",
         converter="svgtopam",
         extensions=(".svg",),
@@ -213,6 +279,11 @@ FORMATS = [
         name="TeX PK Font Bitmap",
         converter="pktopbm",
         extensions=(".pk",),
+    ),
+    Format(
+        name="Usenix FaceSaver",
+        converter="fstopgm",
+        extensions=(".fs",),
     ),
     Format(
         name="Utah RLE",
@@ -238,6 +309,11 @@ FORMATS = [
         name="X Window Dump",
         converter="xwdtopnm",
         extensions=(".xwd",),
+    ),
+    Format(
+        name="XV Thumbnail",
+        converter="xvminitoppm",
+        extensions=(".xvmini",),
     ),
     Format(
         name="Xerox Doodle Brush",
