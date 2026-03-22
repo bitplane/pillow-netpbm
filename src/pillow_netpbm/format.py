@@ -80,6 +80,7 @@ FORMATS = [
         converter="sldtoppm",
         extensions=(".sld",),
         magic=b"AutoCAD Slide\r\n\x1a",
+        mime_type="image/x-sld",
     ),
     Format(
         name="AVS X Image",

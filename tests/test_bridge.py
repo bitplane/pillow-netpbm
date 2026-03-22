@@ -18,6 +18,7 @@ AMIGA_INFO_DATA = DATA / "amiga-info"
 ATARI_DEGAS_DATA = DATA / "atari-degas"
 ATARI_SPECTRUM_DATA = DATA / "atari-spectrum"
 IFF_ILBM_DATA = DATA / "iff-ilbm"
+AUTOCAD_SLIDE_DATA = DATA / "autocad-slide"
 
 # Synthetic test data: (subdir, filename, converter, expected_format_id)
 SYNTHETIC_FORMATS = [
@@ -186,8 +187,12 @@ def test_open_avs():
 
 
 @pytest.mark.skipif(not shutil.which("sldtoppm"), reason="sldtoppm not installed")
-def test_open_autocad_slide():
-    im = Image.open(str(DATA / "autocad-slide" / "ab30-02c.sld"))
+@pytest.mark.parametrize(
+    "name",
+    [p.name for p in sorted(AUTOCAD_SLIDE_DATA.glob("*.[Ss][Ll][Dd]"))],
+)
+def test_open_autocad_slide(name):
+    im = Image.open(str(AUTOCAD_SLIDE_DATA / name))
     assert im.format == "NETPBM_AUTOCAD_SLIDE"
     im.load()
     assert im.size[0] > 0 and im.size[1] > 0
@@ -195,7 +200,7 @@ def test_open_autocad_slide():
 
 @pytest.mark.skipif(not shutil.which("sldtoppm"), reason="sldtoppm not installed")
 def test_autocad_slide_detected_without_extension(tmp_path):
-    src = DATA / "autocad-slide" / "ab30-02c.sld"
+    src = AUTOCAD_SLIDE_DATA / "ab30-02c.sld"
     dst = tmp_path / "slide.wrongext"
     dst.write_bytes(src.read_bytes())
     im = Image.open(str(dst))
