@@ -79,7 +79,7 @@ FORMATS = [
         name="AutoCAD Slide",
         converter="sldtoppm",
         extensions=(".sld",),
-        magic=b"AutoCAD Slide",
+        magic=b"AutoCAD Slide\r\n\x1a",
     ),
     Format(
         name="AVS X Image",
