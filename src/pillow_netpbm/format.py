@@ -102,7 +102,7 @@ FORMATS = [
     Format(
         name="Fiasco Wavelet",
         converter="fiascotopnm",
-        extensions=(".wfa",),
+        extensions=(".wfa", ".fco"),
         magic=b"FIASCO",
     ),
     Format(

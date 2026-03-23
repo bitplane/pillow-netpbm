@@ -1,0 +1,9 @@
+# FIASCO - Fractal Image And Sequence Codec
+# Author: Ullrich Hafner, Univ. Würzburg (1999)
+# Source: https://github.com/l-tamas/Fiasco codec/wfa.h
+
+0	string	FIASCO\n	FIASCO fractal compressed image data
+!:ext	wfa/fco
+
+0	string	Fiasco		FIASCO basis (dictionary) file
+!:ext	fco
