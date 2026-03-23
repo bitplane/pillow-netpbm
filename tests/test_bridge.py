@@ -27,6 +27,8 @@ SYNTHETIC_FORMATS = [
     ("facesaver", "test.fs", "fstopgm", "NETPBM_USENIX_FACESAVER"),
     ("fiasco", "test.wfa", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),
     ("fiasco", "abydos.fco", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),
+    ("fiasco", "monarch.fco", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),
+    ("fiasco", "lena.fco", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),
     ("fits", "test.fits", "fitstopnm", "NETPBM_FITS"),
     ("garmin-srf", "test.srf", "srftopam", "NETPBM_GARMIN_SRF"),
     ("gem-raster", "test.gem", "gemtopnm", "NETPBM_GEM_RASTER"),

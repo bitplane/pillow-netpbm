@@ -24,7 +24,7 @@ the rest fall back to file extension matching.
 | AVS X Image | `avstopam` | .avs | ext | yes |
 | CMU Window Manager Bitmap | `cmuwmtopbm` | | magic | yes |
 | CompuServe RLE | `cistopbm` | .cis | ext | yes |
-| Fiasco Wavelet | `fiascotopnm` | .wfa | magic | yes |
+| Fiasco Wavelet | `fiascotopnm` | .wfa .fco | magic | yes |
 | FITS | `fitstopnm` | .fits .fit .fts | magic | yes |
 | Garmin SRF | `srftopam` | .srf | magic | yes |
 | GEM Raster | `gemtopnm` | .gem | ext | yes |
@@ -63,6 +63,13 @@ the rest fall back to file extension matching.
 | Xerox Doodle Brush | `brushtopbm` | .brush | ext | no |
 | YBM Face File | `ybmtopbm` | .ybm | magic | yes |
 | Zeiss Confocal | `zeisstopnm` | .lsm | ext | no |
+
+## Known issues
+
+- **FIASCO multi-frame sequences**: FIASCO supports video (multiple frames in
+  one file). The bridge currently only handles single-frame images because
+  `fiascotopnm` can't output multi-frame sequences to stdout. Video files will
+  fail to open.
 
 ## Excluded formats
 
