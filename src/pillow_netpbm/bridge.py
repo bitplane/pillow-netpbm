@@ -42,10 +42,14 @@ class NetpbmImageFile(ImageFile.ImageFile):
 
         path = self._get_path()
 
-        result = subprocess.run(
-            [converter, str(path)],
-            capture_output=True,
-        )
+        try:
+            result = subprocess.run(
+                [converter, str(path)],
+                capture_output=True,
+                timeout=30,
+            )
+        except subprocess.TimeoutExpired:
+            raise SyntaxError(f"{fmt.converter} timed out")
         if result.returncode != 0:
             raise SyntaxError(f"{fmt.converter} failed: " f"{result.stderr.decode(errors='replace').strip()}")
 
