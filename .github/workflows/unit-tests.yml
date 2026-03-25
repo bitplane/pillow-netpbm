@@ -5,25 +5,16 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-25.04
-    strategy:
-      matrix:
-        python-version: ["3.11"]
+    runs-on: ubuntu-24.04
+    container:
+      image: ubuntu:25.10
 
     steps:
+      - name: Install dependencies
+        run: apt-get update && apt-get install -y git netpbm python3-venv make
       - uses: actions/checkout@v4
-      - name: Install netpbm
-        run: sudo apt-get update && sudo apt-get install -y netpbm
-      - name: netpbm info
-        run: |
-          dpkg -l netpbm
-          fiascotopnm --version 2>&1 || true
-          timeout 5 fiascotopnm tests/data/fiasco/abydos.fco > /tmp/fiasco-test.ppm 2>&1 || echo "exit: $?"
-          ls -la /tmp/fiasco-test.ppm 2>/dev/null || echo "no output"
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Fix git ownership
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Build dev environment
         run: make dev
       - name: Unit tests
