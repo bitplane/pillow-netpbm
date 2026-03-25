@@ -1,0 +1,5 @@
+0	string	MRF1	MRF image data,
+!:mime	image/x-mrf
+!:ext	mrf
+>4	belong	x		%d x
+>8	belong	x		%d
