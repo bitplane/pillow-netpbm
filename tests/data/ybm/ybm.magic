@@ -1,3 +1,7 @@
+# YBM "face" format - monochrome bitmap by Bennet Yee (CMU, ~1988)
+# Used by Yee's `face` and `xbm` programs for small Unix user portraits.
+# Converters: netpbm (ybmtopbm/pbmtoybm), FBM library.
+
 0	beshort	0x2121	YBM face image data,
 >2	beshort	>0
 >>2	beshort	<2049	%d x
