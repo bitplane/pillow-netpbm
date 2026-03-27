@@ -1,0 +1,38 @@
+# JBIG1 (ITU-T T.82/T.85) Bi-level Image Entity
+# Used for fax, scanned documents, and bi-level image compression.
+# Extensions: .jbg .jbig .bie (all identical format)
+#
+# The 20-byte BIH (Bi-level Image Header) has no magic string, making
+# reliable detection difficult. This rule checks several header
+# constraints to reduce false positives, but may still match other
+# binary files. NOT submitted to libmagic for this reason.
+#
+# Header layout (all multi-byte fields are big-endian):
+#   0: DL    (1 byte)  - differential layers, typically 0
+#   1: D     (1 byte)  - bit planes, typically 1 (bilevel)
+#   2: P     (1 byte)  - horizontal resolution layers
+#   3: reserved (1 byte)
+#   4: Xd    (4 bytes) - image width
+#   8: Yd    (4 bytes) - image height
+#  12: L0    (4 bytes) - stripe height
+#  16: MX    (1 byte)  - template pixel range
+#  17: options (1 byte) - only low 3 bits used
+#  18: order (1 byte)  - only low 3 bits used
+
+# DL=0 (no differential layers, most common case)
+0	byte		0
+# D: number of bit planes, 0 or small number
+>1	byte		<9
+# horizontal resolution layers, small number
+>>2	byte		<8
+# width must be positive
+>>>4	belong		>0
+# height must be positive
+>>>>8	belong		>0
+# options byte: only bits 0-2 are defined
+>>>>>17	byte&0xF8	0
+# order byte: only bits 0-2 are defined
+>>>>>>18	byte&0xF8	0	JBIG image data,
+!:ext	jbg/jbig/bie
+>>>>>>>4	belong		x	%d x
+>>>>>>>8	belong		x	%d
