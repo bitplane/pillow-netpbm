@@ -55,6 +55,8 @@ SYNTHETIC_FORMATS = [
     ("xv-thumbnail", "test.xvmini", "xvminitoppm", "NETPBM_XV_THUMBNAIL"),
     ("xwd", "test.xwd", "xwdtopnm", "NETPBM_X_WINDOW_DUMP"),
     ("ybm", "test.ybm", "ybmtopbm", "NETPBM_YBM_FACE_FILE"),
+    ("ybm", "abydos.ybm", "ybmtopbm", "NETPBM_YBM_FACE_FILE"),
+    ("ybm", "dragon.ybm", "ybmtopbm", "NETPBM_YBM_FACE_FILE"),
 ]
 
 

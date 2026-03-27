@@ -1,0 +1,5 @@
+0	beshort	0x2121	YBM face image data,
+>2	beshort	>0
+>>2	beshort	<2049	%d x
+>4	beshort	>0
+>>4	beshort	<2049	%d
