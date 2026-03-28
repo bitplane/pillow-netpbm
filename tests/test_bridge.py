@@ -24,6 +24,11 @@ AUTOCAD_SLIDE_DATA = DATA / "autocad-slide"
 SYNTHETIC_FORMATS = [
     ("cmu-wm", "test.cmuwm", "cmuwmtopbm", "NETPBM_CMU_WINDOW_MANAGER_BITMAP"),
     ("compuserve-rle", "test.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
+    ("compuserve-rle", "apollo.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
+    ("compuserve-rle", "city.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
+    ("compuserve-rle", "daffy.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
+    ("compuserve-rle", "girl.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
+    ("compuserve-rle", "jane.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
     ("facesaver", "test.fs", "fstopgm", "NETPBM_USENIX_FACESAVER"),
     ("fiasco", "test.wfa", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),
     ("fiasco", "abydos.fco", "fiascotopnm", "NETPBM_FIASCO_WAVELET"),

@@ -96,7 +96,8 @@ FORMATS = [
     Format(
         name="CompuServe RLE",
         converter="cistopbm",
-        extensions=(".cis",),
+        extensions=(".cis", ".rle"),
+        match=lambda prefix: prefix[:3] in (b"\x1bGH", b"\x1bGM"),
     ),
     # Encoder YUV (eyuvtoppm) removed: headerless format, dimensions not in file
     Format(
