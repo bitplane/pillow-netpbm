@@ -23,6 +23,8 @@ AUTOCAD_SLIDE_DATA = DATA / "autocad-slide"
 # Synthetic test data: (subdir, filename, converter, expected_format_id)
 SYNTHETIC_FORMATS = [
     ("cmu-wm", "test.cmuwm", "cmuwmtopbm", "NETPBM_CMU_WINDOW_MANAGER_BITMAP"),
+    ("atari-spectrum", "DUCKS.SPC", "spctoppm", "NETPBM_ATARI_COMPRESSED_SPECTRUM"),
+    ("atari-spectrum", "MARBLE.SPC", "spctoppm", "NETPBM_ATARI_COMPRESSED_SPECTRUM"),
     ("compuserve-rle", "test.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
     ("compuserve-rle", "apollo.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
     ("compuserve-rle", "city.cis", "cistopbm", "NETPBM_COMPUSERVE_RLE"),
@@ -61,8 +63,8 @@ SYNTHETIC_FORMATS = [
     ("mrf", "abydos.mrf", "mrftopbm", "NETPBM_MRF"),
     ("mrf", "cities.mrf", "mrftopbm", "NETPBM_MRF"),
     ("mrf", "zgvlogo.mrf", "mrftopbm", "NETPBM_MRF"),
-    ("qrt", "lamp.raw", "qrttoppm", "NETPBM_QRT_RAY_TRACER"),
-    ("qrt", "table.raw", "qrttoppm", "NETPBM_QRT_RAY_TRACER"),
+    ("qrt", "lamp.qrt", "qrttoppm", "NETPBM_QRT_RAY_TRACER"),
+    ("qrt", "table.qrt", "qrttoppm", "NETPBM_QRT_RAY_TRACER"),
     ("qrt", "data.dis", "qrttoppm", "NETPBM_QRT_RAY_TRACER"),
     ("palm-db", "test.pdb", "pdbimgtopam", "NETPBM_PALM_DB_IMAGE"),
     ("sbig", "test.sbig", "sbigtopgm", "NETPBM_SBIG_CCD_CAMERA"),

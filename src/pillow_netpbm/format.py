@@ -204,12 +204,6 @@ FORMATS = [
         name="QRT Ray Tracer",
         converter="qrttoppm",
         extensions=(".qrt", ".dis"),
-        match=lambda prefix: (
-            len(prefix) >= 6
-            and prefix[4:6] == b"\x00\x00"
-            and 0 < int.from_bytes(prefix[0:2], "little") <= 4096
-            and 0 < int.from_bytes(prefix[2:4], "little") <= 4096
-        ),
     ),
     Format(
         name="SBIG CCD Camera",
@@ -303,9 +297,5 @@ FORMATS = [
     ),
     # YUV 4:1:1 (yuvtoppm) removed: headerless format, dimensions not in file
     # YUY2 Video Frame (yuy2topam) removed: headerless format, dimensions not in file
-    Format(
-        name="Zeiss Confocal",
-        converter="zeisstopnm",
-        extensions=(".lsm",),
-    ),
+    # Zeiss Confocal (zeisstopnm) removed: LSM is TIFF-based, Pillow handles it natively
 ]

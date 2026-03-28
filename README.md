@@ -14,7 +14,7 @@ the rest fall back to file extension matching.
 | Amiga IFF ILBM | `ilbmtoppm` | .iff .ilbm .lbm | match | yes |
 | Amiga Info Icon | `infotopam` | .info | magic | yes |
 | ATK Raster | `atktopbm` | .raster | magic | yes |
-| Atari Compressed Spectrum | `spctoppm` | .spc | ext | no |
+| Atari Compressed Spectrum | `spctoppm` | .spc | ext | yes |
 | Atari Degas | `pi1toppm` | .pi1 | ext | yes |
 | Atari Degas Elite | `pc1toppm` | .pc1 | magic | yes |
 | Atari Degas Low-Res | `pi3topbm` | .pi3 | ext | yes |
@@ -42,7 +42,7 @@ the rest fall back to file extension matching.
 | MRF | `mrftopbm` | .mrf | magic | yes |
 | MTV Ray Tracer | `mtvtoppm` | .mtv | ext | yes |
 | Palm DB Image | `pdbimgtopam` | .pdb | ext | yes |
-| QRT Ray Tracer | `qrttoppm` | .qrt .dis | match | yes |
+| QRT Ray Tracer | `qrttoppm` | .qrt .dis | ext | yes |
 | SBIG CCD Camera | `sbigtopgm` | .sbig | ext | yes |
 | SBIG ST-4 CCD Camera | `st4topgm` | .st4 | ext | yes |
 | Solitaire | `sirtopnm` | .sir | magic | yes |
@@ -60,7 +60,6 @@ the rest fall back to file extension matching.
 | XV Thumbnail | `xvminitoppm` | | magic | yes |
 | Xerox Doodle Brush | `brushtopbm` | .brush | ext | no |
 | YBM Face File | `ybmtopbm` | .ybm | magic | yes |
-| Zeiss Confocal | `zeisstopnm` | .lsm | ext | no |
 
 ## Known issues
 
@@ -86,3 +85,4 @@ The following netpbm converters are not supported by this plugin:
 | `yuvtoppm` | YUV 4:1:1 | Headerless format, dimensions not in file |
 | `yuy2topam` | YUY2 Video Frame | Headerless format, dimensions not in file |
 | `psidtopgm` | PostScript Image Data | Requires manual width/height/bps args, not a standalone file format |
+| `zeisstopnm` | Zeiss Confocal (LSM) | TIFF-based format, Pillow handles it natively |
