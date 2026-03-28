@@ -160,11 +160,7 @@ FORMATS = [
         converter="jbigtopnm",
         extensions=(".jbig", ".jbg", ".bie"),
     ),
-    Format(
-        name="Kodak Photo CD",
-        converter="hpcdtoppm",
-        extensions=(".pcd",),
-    ),
+    # Kodak Photo CD (hpcdtoppm) removed: Pillow handles PCD natively
     Format(
         name="Lisp Machine Bitmap",
         converter="lispmtopgm",

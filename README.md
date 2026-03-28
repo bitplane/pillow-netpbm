@@ -35,13 +35,12 @@ the rest fall back to file extension matching.
 | Img-whatnot | `imgtoppm` | .img | ext | no |
 | Interleaf | `leaftoppm` | .leaf | magic | yes |
 | JBIG | `jbigtopnm` | .jbig .jbg .bie | ext | yes |
-| Kodak Photo CD | `hpcdtoppm` | .pcd | ext | no |
 | Lisp Machine Bitmap | `lispmtopgm` | | magic | yes |
 | MacPaint | `macptopbm` | .macp | ext | yes |
 | MGR Bitmap | `mgrtopbm` | .mgr | match | yes |
 | Microdesign | `mdatopbm` | .mda | match | yes |
 | MRF | `mrftopbm` | .mrf | magic | yes |
-| MTV Ray Tracer | `mtvtoppm` | .mtv | ext | no |
+| MTV Ray Tracer | `mtvtoppm` | .mtv | ext | yes |
 | Palm DB Image | `pdbimgtopam` | .pdb | ext | yes |
 | PostScript Image Data | `psidtopgm` | .psid | ext | no |
 | QRT Ray Tracer | `qrttoppm` | .qrt | ext | no |
@@ -77,6 +76,7 @@ The following netpbm converters are not supported by this plugin:
 
 | Converter | Format | Reason |
 |-----------|--------|--------|
+| `hpcdtoppm` | Kodak Photo CD | Pillow handles PCD natively |
 | `cameratopam` | Camera RAW (NEF, CR2) | Segfaults on NEF files, "File seek failed" on CR2 |
 | `ddbugtopbm` | Diddle/DiddleBug sketch DB | Reads stdin only, writes multiple `.pbm` files to CWD |
 | `pcdovtoppm` | Kodak Photo CD Overview | Shell script pipeline, not a single-binary converter |
