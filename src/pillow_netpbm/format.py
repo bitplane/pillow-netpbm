@@ -199,15 +199,17 @@ FORMATS = [
         converter="pdbimgtopam",
         extensions=(".pdb",),
     ),
-    Format(
-        name="PostScript Image Data",
-        converter="psidtopgm",
-        extensions=(".psid",),
-    ),
+    # PostScript Image Data (psidtopgm) removed: requires manual width/height/bps args, not a file format
     Format(
         name="QRT Ray Tracer",
         converter="qrttoppm",
-        extensions=(".qrt",),
+        extensions=(".qrt", ".dis"),
+        match=lambda prefix: (
+            len(prefix) >= 6
+            and prefix[4:6] == b"\x00\x00"
+            and 0 < int.from_bytes(prefix[0:2], "little") <= 4096
+            and 0 < int.from_bytes(prefix[2:4], "little") <= 4096
+        ),
     ),
     Format(
         name="SBIG CCD Camera",

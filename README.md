@@ -42,12 +42,11 @@ the rest fall back to file extension matching.
 | MRF | `mrftopbm` | .mrf | magic | yes |
 | MTV Ray Tracer | `mtvtoppm` | .mtv | ext | yes |
 | Palm DB Image | `pdbimgtopam` | .pdb | ext | yes |
-| PostScript Image Data | `psidtopgm` | .psid | ext | no |
-| QRT Ray Tracer | `qrttoppm` | .qrt | ext | no |
+| QRT Ray Tracer | `qrttoppm` | .qrt .dis | match | yes |
 | SBIG CCD Camera | `sbigtopgm` | .sbig | ext | yes |
 | SBIG ST-4 CCD Camera | `st4topgm` | .st4 | ext | yes |
 | Solitaire | `sirtopnm` | .sir | magic | yes |
-| Sony Mavica 411 | `411toppm` | .411 | ext | no |
+| Sony Mavica 411 | `411toppm` | .411 | ext | yes |
 | SPOT Satellite | `spottopgm` | .spot | ext | no |
 | Sun Icon | `sunicontopnm` | .icon | ext | yes |
 | SVG | `svgtopam` | .svg | ext | yes |
@@ -86,3 +85,4 @@ The following netpbm converters are not supported by this plugin:
 | `eyuvtoppm` | Encoder YUV | Headerless format, dimensions not in file |
 | `yuvtoppm` | YUV 4:1:1 | Headerless format, dimensions not in file |
 | `yuy2topam` | YUY2 Video Frame | Headerless format, dimensions not in file |
+| `psidtopgm` | PostScript Image Data | Requires manual width/height/bps args, not a standalone file format |
