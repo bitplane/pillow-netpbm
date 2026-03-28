@@ -144,11 +144,7 @@ FORMATS = [
         converter="pjtoppm",
         extensions=(".pj",),
     ),
-    Format(
-        name="Img-whatnot",
-        converter="imgtoppm",
-        extensions=(".img",),
-    ),
+    # Img-whatnot (imgtoppm) removed: .img clashes with many formats, no test data, origin server defunct
     Format(
         name="Interleaf",
         converter="leaftoppm",
@@ -241,12 +237,7 @@ FORMATS = [
         converter="svgtopam",
         extensions=(".svg",),
     ),
-    Format(
-        name="TeX PK Font Bitmap",
-        converter="pktopbm",
-        extensions=(".pk",),
-        magic=b"\xf7\x59",
-    ),
+    # TeX PK Font (pktopbm) removed: writes multiple PBM files (one per glyph), not stdout
     Format(
         name="Usenix FaceSaver",
         converter="fstopgm",
@@ -258,11 +249,7 @@ FORMATS = [
         extensions=(".rle",),
         magic=b"\x52\xcc",
     ),
-    Format(
-        name="Wavefront RLA",
-        converter="rlatopam",
-        extensions=(".rla",),
-    ),
+    # Wavefront RLA (rlatopam) removed: broken on 64-bit (sizeof(long) misaligns header), numChan never set
     Format(
         name="Wireless Bitmap",
         converter="wbmptopbm",

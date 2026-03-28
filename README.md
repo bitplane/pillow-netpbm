@@ -32,7 +32,6 @@ the rest fall back to file extension matching.
 | Group 3 Fax | `g3topbm` | .g3 | ext | yes |
 | HIPS | `hipstopgm` | .hips | ext | no |
 | HP PaintJet | `pjtoppm` | .pj | ext | yes |
-| Img-whatnot | `imgtoppm` | .img | ext | no |
 | Interleaf | `leaftoppm` | .leaf | magic | yes |
 | JBIG | `jbigtopnm` | .jbig .jbg .bie | ext | yes |
 | Lisp Machine Bitmap | `lispmtopgm` | | magic | yes |
@@ -50,12 +49,10 @@ the rest fall back to file extension matching.
 | SPOT Satellite | `spottopgm` | .spot | ext | no |
 | Sun Icon | `sunicontopnm` | .icon | ext | yes |
 | SVG | `svgtopam` | .svg | ext | yes |
-| TeX PK Font Bitmap | `pktopbm` | .pk | magic | no |
 | Usenix FaceSaver | `fstopgm` | .fs | ext | yes |
 | Utah RLE | `rletopnm` | .rle | magic | yes |
-| Wavefront RLA | `rlatopam` | .rla | ext | no |
 | Wireless Bitmap | `wbmptopbm` | .wbmp | ext | yes |
-| X IMage | `ximtoppm` | .xim | ext | no |
+| X IMage | `ximtoppm` | .xim | ext | yes |
 | X Window Dump | `xwdtopnm` | .xwd | match | yes |
 | XV Thumbnail | `xvminitoppm` | | magic | yes |
 | Xerox Doodle Brush | `brushtopbm` | .brush | ext | no |
@@ -85,4 +82,7 @@ The following netpbm converters are not supported by this plugin:
 | `yuvtoppm` | YUV 4:1:1 | Headerless format, dimensions not in file |
 | `yuy2topam` | YUY2 Video Frame | Headerless format, dimensions not in file |
 | `psidtopgm` | PostScript Image Data | Requires manual width/height/bps args, not a standalone file format |
+| `imgtoppm` | Img-whatnot | `.img` extension clashes with many formats; no test data, origin server defunct |
+| `pktopbm` | TeX PK Font Bitmap | Writes multiple PBM files (one per glyph), not a single-image converter |
+| `rlatopam` | Wavefront RLA | Broken on 64-bit: `sizeof(long)` misaligns header read, `numChan` never assigned |
 | `zeisstopnm` | Zeiss Confocal (LSM) | TIFF-based format, Pillow handles it natively |

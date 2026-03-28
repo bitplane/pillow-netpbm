@@ -75,6 +75,8 @@ SYNTHETIC_FORMATS = [
     ("utah-rle", "test.rle", "rletopnm", "NETPBM_UTAH_RLE"),
     ("wireless-bitmap", "test.wbmp", "wbmptopbm", "NETPBM_WIRELESS_BITMAP"),
     ("xv-thumbnail", "test.xvmini", "xvminitoppm", "NETPBM_XV_THUMBNAIL"),
+    ("xim", "smack.xim", "ximtoppm", "NETPBM_X_IMAGE"),
+    ("xim", "tea.xim", "ximtoppm", "NETPBM_X_IMAGE"),
     ("xwd", "test.xwd", "xwdtopnm", "NETPBM_X_WINDOW_DUMP"),
     ("ybm", "test.ybm", "ybmtopbm", "NETPBM_YBM_FACE_FILE"),
     ("ybm", "abydos.ybm", "ybmtopbm", "NETPBM_YBM_FACE_FILE"),
