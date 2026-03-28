@@ -53,6 +53,7 @@ SYNTHETIC_FORMATS = [
     ("neochrome", "bird2.neo", "neotoppm", "NETPBM_ATARI_NEOCHROME"),
     ("neochrome", "startrek.neo", "neotoppm", "NETPBM_ATARI_NEOCHROME"),
     ("neochrome", "discs.neo", "neotoppm", "NETPBM_ATARI_NEOCHROME"),
+    ("mavica-411", "MVC-023F.411", "411toppm", "NETPBM_SONY_MAVICA_411"),
     ("mtv", "rainbow.mtv", "mtvtoppm", "NETPBM_MTV_RAY_TRACER"),
     ("mtv", "rose.mtv", "mtvtoppm", "NETPBM_MTV_RAY_TRACER"),
     ("mtv", "sailor.mtv", "mtvtoppm", "NETPBM_MTV_RAY_TRACER"),
