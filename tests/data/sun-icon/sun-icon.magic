@@ -1,0 +1,8 @@
+# Sun Icon - raster icon format from SunView/OpenWindows
+# Used on Sun workstations from the mid-1980s onwards.
+# ASCII format: C-style comment header with dimensions, followed by hex data.
+# Netpbm: sunicontopnm
+
+0	string	/*\ Format_version=1	Sun icon image data
+!:mime	image/x-sun-icon
+!:ext	icon/ico

@@ -205,6 +205,7 @@ FORMATS = [
         name="SBIG CCD Camera",
         converter="sbigtopgm",
         extensions=(".sbig",),
+        match=lambda prefix: prefix[:3] == b"ST-" and b"Image" in prefix[:16],
     ),
     Format(
         name="SBIG ST-4 CCD Camera",
@@ -231,6 +232,7 @@ FORMATS = [
         name="Sun Icon",
         converter="sunicontopnm",
         extensions=(".icon",),
+        match=lambda prefix: prefix[:16] == b"/* Format_versio",
     ),
     Format(
         name="SVG",

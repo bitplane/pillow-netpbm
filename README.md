@@ -42,12 +42,12 @@ the rest fall back to file extension matching.
 | MTV Ray Tracer | `mtvtoppm` | .mtv | ext | yes |
 | Palm DB Image | `pdbimgtopam` | .pdb | ext | yes |
 | QRT Ray Tracer | `qrttoppm` | .qrt .dis | ext | yes |
-| SBIG CCD Camera | `sbigtopgm` | .sbig | ext | yes |
+| SBIG CCD Camera | `sbigtopgm` | .sbig | match | yes |
 | SBIG ST-4 CCD Camera | `st4topgm` | .st4 | ext | yes |
 | Solitaire | `sirtopnm` | .sir | magic | yes |
 | Sony Mavica 411 | `411toppm` | .411 | ext | yes |
 | SPOT Satellite | `spottopgm` | .spot | ext | no |
-| Sun Icon | `sunicontopnm` | .icon | ext | yes |
+| Sun Icon | `sunicontopnm` | .icon | match | yes |
 | SVG | `svgtopam` | .svg | ext | yes |
 | Usenix FaceSaver | `fstopgm` | .fs .face | match | yes |
 | Utah RLE | `rletopnm` | .rle | magic | yes |
