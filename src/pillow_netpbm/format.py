@@ -241,7 +241,8 @@ FORMATS = [
     Format(
         name="Usenix FaceSaver",
         converter="fstopgm",
-        extensions=(".fs",),
+        extensions=(".fs", ".face"),
+        match=lambda prefix: prefix[:10] == b"FirstName:",
     ),
     Format(
         name="Utah RLE",

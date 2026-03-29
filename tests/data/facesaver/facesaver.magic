@@ -1,0 +1,10 @@
+# Usenix FaceSaver - grayscale face image format
+# Created by Metron Computerware Ltd., used at USENIX conferences from 1987.
+# ASCII format: header lines (FirstName:, LastName:, PicData:, Image:, etc.)
+# followed by hex-encoded pixel data.
+# Spec: https://www.fileformat.info/format/facesaver/egff.htm
+# Netpbm: fstopgm, pgmtofs
+
+0	string	FirstName:	Usenix FaceSaver image data
+!:mime	image/x-facesaver
+!:ext	face/fs

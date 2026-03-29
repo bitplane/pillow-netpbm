@@ -49,7 +49,7 @@ the rest fall back to file extension matching.
 | SPOT Satellite | `spottopgm` | .spot | ext | no |
 | Sun Icon | `sunicontopnm` | .icon | ext | yes |
 | SVG | `svgtopam` | .svg | ext | yes |
-| Usenix FaceSaver | `fstopgm` | .fs | ext | yes |
+| Usenix FaceSaver | `fstopgm` | .fs .face | match | yes |
 | Utah RLE | `rletopnm` | .rle | magic | yes |
 | Wireless Bitmap | `wbmptopbm` | .wbmp | ext | yes |
 | X IMage | `ximtoppm` | .xim | ext | yes |
