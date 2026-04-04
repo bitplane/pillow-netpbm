@@ -1,0 +1,15 @@
+# SBIG CCDOPS - CCD astronomical camera image format (Type 3)
+# Created by Santa Barbara Instrument Group (SBIG), est. 1988.
+# 2048-byte ASCII header with camera model, exposure, dimensions etc.
+# followed by 14-bit or 16-bit little-endian pixel data.
+# Spec: formerly at sbig.com (now diffractionlimited.com)
+# Netpbm: sbigtopgm, pgmtosbig
+
+# Header line 1 is always "ST-N Image" or "ST-NN Image"
+# where N is the camera model number (4, 5, 6, 7, 8, 9, 10, 237, 402, etc.)
+# Note: LF-CR line endings per spec (yes, really)
+
+0	string	ST-
+>&0	regex	[0-9]+\ Image	SBIG CCDOPS CCD camera image
+!:mime	image/x-sbig
+!:ext	sbig

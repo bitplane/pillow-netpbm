@@ -122,7 +122,8 @@ FORMATS = [
     Format(
         name="GEM Raster",
         converter="gemtopnm",
-        extensions=(".gem",),
+        extensions=(".gem", ".img"),
+        match=lambda prefix: prefix[:4] == b"\x00\x01\x00\x08",
     ),
     Format(
         name="Gould Scanner",
@@ -148,7 +149,7 @@ FORMATS = [
     Format(
         name="Interleaf",
         converter="leaftoppm",
-        extensions=(".leaf",),
+        extensions=(".leaf", ".iimg"),
         magic=b"\x89\x4f\x50\x53",
     ),
     Format(

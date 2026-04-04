@@ -1,0 +1,13 @@
+# Interleaf image data (ileaf img format)
+# Created by Bill O'Donnell, 1994. Used by Interleaf (later BroadVision)
+# technical publishing software.
+# Header: 0x89 "OPS" magic, BE 16-bit version, resolution, dimensions,
+# depth, compression flag, optional colormap.
+# Netpbm: leaftoppm, ppmtoleaf
+#
+# Note: \x88OPS is "Interleaf saved data" (documents), already in Magdir.
+#       \x89OPS is the image format, which is currently missing.
+
+0	string	\x89OPS	Interleaf image data
+!:mime	image/x-interleaf
+!:ext	leaf
