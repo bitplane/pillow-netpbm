@@ -166,7 +166,7 @@ FORMATS = [
     Format(
         name="MacPaint",
         converter="macptopbm",
-        extensions=(".macp",),
+        extensions=(".macp", ".mac", ".pntg"),
     ),
     Format(
         name="MGR Bitmap",

@@ -1,0 +1,26 @@
+# MacPaint image data
+# Created by Apple for the original Macintosh, 1984.
+# 576x720 monochrome bitmap, PackBits compressed.
+# Three variants:
+#   1. MacBinary: 128-byte MacBinary header + 512-byte paint header + data
+#      (PNTGMPNT at offset 65 — already detected by Magdir/apple)
+#   2. Version header: 4-byte version (2 or 3) + 304 bytes brush/pattern
+#      data + 204 bytes reserved + pixel data
+#   3. Null header: 512 bytes of zeros + pixel data
+# PRONOM: x-fmt/161
+# Netpbm: macptopbm, pbmtomacp
+
+# MacBinary variant (already in Magdir/apple line 778)
+# 65	string	PNTGMPNT	MacPaint image data
+
+# Version 2 with default brush patterns
+0	belong		0x00000002
+>4	belong		0xFFFFFFFF	MacPaint image data, version 2
+!:mime	image/x-macpaint
+!:ext	mac/macp/pntg
+
+# Version 3 with default brush patterns
+0	belong		0x00000003
+>4	belong		0xFFFFFFFF	MacPaint image data, version 3
+!:mime	image/x-macpaint
+!:ext	mac/macp/pntg
